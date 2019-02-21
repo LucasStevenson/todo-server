@@ -1,0 +1,22 @@
+{
+  "name": "lucas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "format": "prettier --print-width 80 --no-semi --single-quote --trailing-comma es5 --write *.js"
+
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.12"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10",
+    "prettier": "1.16.4"
+  }
+}

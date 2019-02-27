@@ -26,8 +26,6 @@ app.get("/api/v1/todos", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(todos);
-
       res.json(todos);
     }
   });
@@ -46,10 +44,10 @@ app.get("/api/v1/todos/:id", (req, res) => {
 app.post("/api/v1/todos", (req, res) => {
   Todo.create(req.body, function(err) {
     if (err) {
-      res.status(400).send("adding new todo failed");
+      return res.status(400).send("adding new todo failed");
     }
   });
-  res.status(200).json({ todo: "todo added successfully" });
+  return res.status(200).json({ todo: "todo added successfully" });
 
   //   console.log(req.body)
   //  let todo = new Todo(req.body);
@@ -65,20 +63,23 @@ app.post("/api/v1/todos", (req, res) => {
 
 app.post("/api/v1/todos/:id", (req, res) => {
   Todo.findById(req.params.id, function(err, todo) {
-    if (!todo) res.status(404).send("data is not found");
+    if (!todo) return res.status(404).send("data is not found");
     // Update for new model
-    else todo.description = req.body.description;
-    todo.title = req.body.title;
-    todo.completed = req.body.completed;
+    else {
+      todo.description = req.body.description;
+      todo.title = req.body.title;
+      todo.completed = req.body.completed;
 
-    todo
-      .save()
-      .then(todo => {
-        res.json("Todo updated");
-      })
-      .catch(err => {
-        res.status(400).send("Update not possible");
-      });
+      todo
+        .save()
+        .then(todo => {
+          res.json("Todo updated");
+        })
+        .catch(err => {
+          res.status(400).send("Update not possible");
+        });
+    }
+
   });
 });
 

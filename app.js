@@ -46,11 +46,11 @@ app.post("/api/v1/todos", (req, res) => {
     if (err) {
       return res.status(400).send("adding new todo failed");
     }
-    console.log(doc);
+    //console.log(doc);
     return res.status(200).send(doc);
   });
 
-  //   console.log(req.body)
+    //console.log(req.body)
   //  let todo = new Todo(req.body);
   // console.log(todo);
 
@@ -63,20 +63,18 @@ app.post("/api/v1/todos", (req, res) => {
 });
 
 app.post("/api/v1/todos/:id", (req, res) => {
-  console.log(req.params.id);
+  //console.log(req.params.id);
 
   Todo.findById(req.params.id, function(err, todo) {
     if (!todo) return res.status(404).send("data is not found");
     // Update for new model
     else {
-      todo.description = req.body.description
-        ? req.body.description
-        : todo.description;
+      todo.description = req.body.description ? req.body.description : todo.description;
       todo.title = req.body.title ? req.body.title : todo.title;
       todo.completed = req.body.completed ? req.body.completed : todo.completed;
-      console.log(req.body);
+      //console.log(req.body);
 
-      console.log(todo);
+      //console.log(todo);
       todo
         .save()
         .then(todo => {

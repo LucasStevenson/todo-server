@@ -42,12 +42,13 @@ app.get("/api/v1/todos/:id", (req, res) => {
 //post request which adds a todo
 
 app.post("/api/v1/todos", (req, res) => {
-  Todo.create(req.body, function(err) {
+  Todo.create(req.body, function(err, doc) {
     if (err) {
       return res.status(400).send("adding new todo failed");
     }
+    console.log(doc);
+    return res.status(200).send(doc);
   });
-  return res.status(200).json({ todo: "todo added successfully" });
 
   //   console.log(req.body)
   //  let todo = new Todo(req.body);
@@ -62,24 +63,31 @@ app.post("/api/v1/todos", (req, res) => {
 });
 
 app.post("/api/v1/todos/:id", (req, res) => {
+  console.log(req.params.id);
+
   Todo.findById(req.params.id, function(err, todo) {
     if (!todo) return res.status(404).send("data is not found");
     // Update for new model
     else {
-      todo.description = req.body.description;
-      todo.title = req.body.title;
-      todo.completed = req.body.completed;
+      todo.description = req.body.description
+        ? req.body.description
+        : todo.description;
+      todo.title = req.body.title ? req.body.title : todo.title;
+      todo.completed = req.body.completed ? req.body.completed : todo.completed;
+      console.log(req.body);
 
+      console.log(todo);
       todo
         .save()
         .then(todo => {
           res.json("Todo updated");
         })
         .catch(err => {
+          console.log("Update fail");
+
           res.status(400).send("Update not possible");
         });
     }
-
   });
 });
 
@@ -102,39 +110,14 @@ app.delete("/api/v1/todos/:id", (req, res) => {
   });
 });
 
-// //updating the todo.
-// app.put('/api/v1/todos/:id', (req, res) => {
-//   const id = parseInt(req.params.id, 10);
-//   let todoFound;
-//   let itemIndex;
-//   todos.map((todo, index) => {
-//     if (todo.id === id) {
-//       todoFound = todo;
-//       itemIndex = index;
-//     }
-//   });
-
-//   if (!todoFound) {
-//     return res.status(404).send({
-//       success: 'false',
-//       message: 'todo not found',
-//     });
-//   }
-
-//   const updatedTodo = {
-//     id: todoFound.id,
-//     title: req.body.title ? req.body.title : todoFound.title,
-//     description: req.body.description ? req.body.description : todoFound.description,
-//   };
-
-//   todos.splice(itemIndex, 1, updatedTodo);
-
-//   return res.status(201).send({
-//     success: 'true',
-//     message: 'todo added successfully',
-//     updatedTodo,
-//   });
-// });
+app.delete("/api/v1/todos/", (req, res) => {
+  Todo.deleteMany({}, err => {
+    if (err) {
+      console.log(err);
+    }
+    return res.status(200).send("success!");
+  });
+});
 
 const PORT = 5000;
 

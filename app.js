@@ -50,7 +50,7 @@ app.post("/api/v1/todos", (req, res) => {
     return res.status(200).send(doc);
   });
 
-    //console.log(req.body)
+  //console.log(req.body)
   //  let todo = new Todo(req.body);
   // console.log(todo);
 
@@ -69,7 +69,9 @@ app.post("/api/v1/todos/:id", (req, res) => {
     if (!todo) return res.status(404).send("data is not found");
     // Update for new model
     else {
-      todo.description = req.body.description ? req.body.description : todo.description;
+      todo.description = req.body.description
+        ? req.body.description
+        : todo.description;
       todo.title = req.body.title ? req.body.title : todo.title;
       todo.completed = req.body.completed ? req.body.completed : todo.completed;
       //console.log(req.body);
@@ -117,7 +119,7 @@ app.delete("/api/v1/todos/", (req, res) => {
   });
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);

@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.unsubscribe(bodyParser.urlencoded({ extended: false }));
 
 mongoose.connect(
-  "mongodb://lucas:42marvin@ds133865.mlab.com:33865/heroku_m1jp2bks",
+  "mongodb+srv://lucas:Codeforfun@42@todo0-vtx3g.mongodb.net/test?retryWrites=true",
   { useNewUrlParser: true }
 );
 const connection = mongoose.connection;

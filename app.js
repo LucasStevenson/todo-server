@@ -3,6 +3,9 @@ const Todo = require("./db/todo.model");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 var cors = require("cors");
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Intialize express app
 const app = express();
@@ -13,7 +16,7 @@ app.use(bodyParser.json());
 app.unsubscribe(bodyParser.urlencoded({ extended: false }));
 
 mongoose.connect(
-  "mongodb+srv://lucas:Codeforfun@42@todo0-vtx3g.mongodb.net/test?retryWrites=true",
+  process.env.DB_CONNECT,
   { useNewUrlParser: true }
 );
 const connection = mongoose.connection;
